@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-# Generate realistic synthetic monthly revenue data
+# Generate synthetic monthly revenue data
 months = pd.date_range(start="2023-01-01", periods=12, freq="M")
 np.random.seed(0)
 revenue = 100000 + np.random.normal(0, 10000, size=12) + 10000*np.sin(np.linspace(0, 2*np.pi, 12))
@@ -15,14 +15,18 @@ df = pd.DataFrame({
     "Revenue": revenue
 })
 
-# Minimal, validator-friendly Seaborn lineplot
+# Set Seaborn style
 sns.set_style("whitegrid")
-plt.figure(figsize=(8, 8))  # 512x512 pixels
-sns.lineplot(data=df, x="Month", y="Revenue", marker="o")  # lineplot with marker
 
-plt.title("Monthly Revenue")
-plt.xlabel("Month")
-plt.ylabel("Revenue (USD)")
-plt.tight_layout()
-plt.savefig("chart.png", dpi=64, bbox_inches="tight")
-plt.show()
+# Create figure exactly 512x512 pixels
+fig = plt.figure(figsize=(512/100, 512/100), dpi=100)  # 512px / 100 dpi = 5.12 inches
+ax = sns.lineplot(data=df, x="Month", y="Revenue", marker="o")
+
+# Titles and labels
+ax.set_title("Monthly Revenue")
+ax.set_xlabel("Month")
+ax.set_ylabel("Revenue (USD)")
+
+# Save chart exactly 512x512 pixels
+fig.savefig("chart.png", dpi=100)  # 5.12 in * 100 dpi = 512px
+plt.close(fig)
